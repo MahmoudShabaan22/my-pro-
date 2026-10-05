@@ -42,23 +42,6 @@ jobs:
           echo "🧹 Cleaning up Docker images to free up space..."
           docker image prune -af
           echo "✅ Cleanup finished!"
-
-  # ==================== Job 2: Deploy ====================
-  deploy:
-    # 🔥 هذا السطر مهم جداً: يعني الـ Deploy يشتغل فقط بعد نجاح الـ build-only
-    needs: build-only
-    runs-on: self-hosted  # ⚠️ سنشرح هذا في الأسفل
-
-    steps:
-      - name: Start Docker container
-        run: |
-          echo "🚀 Deploying application..."
-          docker run -d --name my-app -p 8080:80 nginx
-      
-      - name: Run tests
-        run: |
-          echo "🧪 Running tests..."
-          # هنا يمكنك إضافة أوامر الاختبار مثل curl localhost:8080
       
       - name: Cleanup Docker container
         if: always()
