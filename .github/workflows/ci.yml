@@ -41,6 +41,24 @@ jobs:
           echo "🧹 Cleaning up Docker images to free up space..."
           docker image prune -af
           echo "✅ Cleanup finished!"
+   jobs:
+    deploy:
+     runs-on: self-hosted
+     steps:
+      - name: Start Docker container
+        run: |
+          docker run -d --name my-app -p 8080:80 nginx
+      
+      - name: Run tests
+        run: |
+          # ... test commands ...
+      
+      - name: Cleanup Docker container
+        if: always()  # ⭐ ينفذ دائماً (نجاح أو فشل)
+        run: |
+          docker stop my-app || true
+          docker rm my-app || true
+          echo "✅ Cleanup completed"
 
 # name: Build and Push Docker Images
 
